@@ -29,12 +29,12 @@ var HangmanWord = function(word) {
 			};
 		};
 	} else {
-		return console.log("That input was not recognized. Please enter a letter");
+		return console.log("That input was not recognized. Please enter a letter.");
 	}
 
 	if (correctGuess === false) {
-		this.lives--;
-		console.log("Sorry that letter was wrong. You lost a life. You have " + this.lives + " lives left.")
+			this.lives--;
+			console.log("Sorry that letter was wrong. You lost a life. You have " + this.lives + " lives left.")
 	} else {
 		console.log("That letter was correct!")
 	};
@@ -55,6 +55,10 @@ var HangmanWord = function(word) {
 			if (displayArr.join(" ").indexOf("_") > -1) {
 				console.log(displayArr.join(" "));
 				console.log("\n")
+			if (this.lives === 0) {
+				this.gameOver = true;
+				console.log("GAME OVER! The word was " + word)
+			}
 			} else {
 				console.log(displayArr.join(" "));
 				this.gameOver = true;
