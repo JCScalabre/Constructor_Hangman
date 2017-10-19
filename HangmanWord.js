@@ -3,6 +3,9 @@ var HangmanLetter = require("./HangmanLetter");
 
 var HangmanWord = function(word) {
 	this.letterArr = [];
+	this.gameOver = false;
+	this.lives = 7;
+
 	// For loop that populates letterArr with HangmanLetter objects
 	for (var i = 0; i < word.length; i++) {
 		this.letterArr.push(new HangmanLetter(word[i], false))
@@ -15,30 +18,33 @@ var HangmanWord = function(word) {
 		if (alphabet.indexOf(guess) > -1) {
 
 			for (var i = 0; i < this.letterArr.length; i++) {
-			// If correct guess:
-			if (guess === this.letterArr[i].letter.toLowerCase()) {
-				this.letterArr[i].guessed = true;
-				correctGuess = true;
+				// If correct guess:
+				if (guess === this.letterArr[i].letter.toLowerCase()) {
+					this.letterArr[i].guessed = true;
+					correctGuess = true;
 
-			// If incorrect guess:
-		} else if (correctGuess === false) {
-			correctGuess = false;
+				// If incorrect guess:
+			} else if (correctGuess === false) {
+				correctGuess = false;
+			};
 		};
-	};
-} else {
-	console.log("Please enter a letter");
-}
+	} else {
+		return console.log("That input was not recognized. Please enter a letter");
+	}
 
-if (correctGuess === false) {
-	console.log("You lost a life.")
-} else {
-	console.log("You didn't lose a life.")
-};
+	if (correctGuess === false) {
+		this.lives--;
+		console.log("Sorry that letter was wrong. You lost a life. You have " + this.lives + " lives left.")
+	} else {
+		console.log("That letter was correct!")
+	};
 };
 
 		// Display function that prints the word to the console:
 		this.display = function() {
+
 			var displayArr = [];
+
 			for (var i = 0; i < word.length; i++) {
 				if (this.letterArr[i].guessed) {
 					displayArr.push(this.letterArr[i].letter);
@@ -46,9 +52,16 @@ if (correctGuess === false) {
 					displayArr.push("_");
 				};
 			};
-			console.log(displayArr.join(" "));
-			console.log("\n")
+			if (displayArr.join(" ").indexOf("_") > -1) {
+				console.log(displayArr.join(" "));
+				console.log("\n")
+			} else {
+				console.log(displayArr.join(" "));
+				this.gameOver = true;
+				console.log("Congrats you won!")
+			}
 		};
+
 	};
 
 	module.exports = HangmanWord;
